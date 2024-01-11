@@ -1,0 +1,157 @@
+/* teams.component.css */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+h3 {
+  color: #007bff;
+  margin-top: 20px;
+}
+
+/* Styles for Create New Team section */
+.create-team-container {
+  margin-top: 20px;
+}
+
+.create-team-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-items: flex-start;
+}
+
+.create-team-container mat-expansion-panel {
+  width: 100%;
+}
+
+.create-team-container mat-panel-title {
+  font-size: 16px;
+}
+
+.create-team-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.create-team-container select {
+  padding: 8px;
+  margin-right: 10px;
+}
+
+.create-team-container button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.create-team-container button:hover {
+  background-color: #0056b3;
+}
+
+
+.create-team-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.create-team-btn {
+  margin-top: 20px;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.create-team-btn:hover {
+  background-color: #45a049;
+}
+
+.swal2-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swal2-popup {
+  width: 400px;
+  max-width: 90%;
+}
+
+.swal2-title {
+  margin-bottom: 10px;
+}
+
+.swal2-input,
+.swal2-select {
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.swal2-cancel,
+.swal2-confirm {
+  padding: 10px 20px;
+}
+
+.swal2-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* background: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path fill="%234caf50" d="M6 8l6-8H0z"/></svg>') no-repeat right 10px center; */
+  background-size: 12px;
+}
+

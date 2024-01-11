@@ -1,0 +1,52 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="95%">
+
+    <mat-card>
+      <mat-card-content>
+        <div>
+          <button mat-raised-button (click)="addUser()">Add User</button>
+        </div>
+        
+        <table *ngIf="userList.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="userId">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let user">{{ user.userId }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let user">{{ user.firstName }} {{ user.lastName }}</td>
+          </ng-container>
+        
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+          </ng-container>
+        
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let user">
+              <button mat-icon-button (click)="deleteUser(user.userId)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+
+        <div class="container" fxLayout="row" fxLayoutAlign="center none">
+          <div fxFlex="50%" class="text-center no-records animate" *ngIf="userList.length == 0">
+            <mat-icon>people_outline</mat-icon>
+            <p>No users exist.</p>
+          </div>
+          <mat-icon> </mat-icon>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

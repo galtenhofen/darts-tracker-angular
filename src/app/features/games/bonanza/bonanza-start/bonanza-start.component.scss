@@ -1,0 +1,36 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.player-num{
+  display: block;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+
+.player-select{
+  display: block;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+
+.flex-container{
+  display:flex
+}
+
+.submit-button{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  height: 40px;
+}

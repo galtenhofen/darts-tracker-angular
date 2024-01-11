@@ -1,0 +1,21 @@
+<div class="game-container">
+<app-bonanza-start *ngIf="!gameStarted" [start]=gameStarted (bonanzaStarted)=onStartBonanza($event) (bonanzaPlayerAdded)=onAddPlayer($event) ></app-bonanza-start>
+
+  <div class="grid" *ngIf="gameStarted">
+    <div class="one" >
+      <app-bonanza-current [start]=gameStarted [currentPlayers]="currentPlayers" ></app-bonanza-current>
+
+    </div>
+    <div class="two">
+      <app-bonanza-leaderboard [start]=gameStarted [currentPlayers]="currentPlayers" ></app-bonanza-leaderboard>
+    </div>
+    <div class="three">
+      <app-bonanza-history [start]=gameStarted [currentPlayers]="currentPlayers" ></app-bonanza-history>
+    </div>
+  </div>
+
+ <!-- <div>
+    <button mat-raised-button color="warn" class="button bail-button" id="bail-button" (click)="onClickBail()">Bail</button>
+  </div>-->
+
+</div>

@@ -1,0 +1,131 @@
+<img src="../../../assets/Bonanza-73378.png" height="155" width="400" class="center"/>
+<div class="player-num">
+<mat-form-field>
+  <mat-label>How many players?</mat-label>
+  <mat-select id="numPlayers"
+              (selectionChange)="onSelectPlayerNum(numberPlayers)"
+              [(ngModel)]="numberPlayers">
+    <mat-option *ngFor="let num of numPlayers" [value]="num">
+      {{num}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+
+
+<div class="flex-container">
+<div class="player-select" *ngIf="numberPlayers > 0">
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Enter Player 1 Name" (change)="onSelectPlayer($event.target.value,1)" value="{{player1}}">
+  </mat-form-field>
+</form>
+</div>
+<div class="player-select" *ngIf="numberPlayers > 1">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter Player 2 Name" (change)="onSelectPlayer($event.target.value,2)" value="{{player2}}">
+    </mat-form-field>
+  </form>
+</div>
+<div class="player-select" *ngIf="numberPlayers > 2">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter Player 3 Name" (change)="onSelectPlayer($event.target.value,3)" value="{{player3}}">
+    </mat-form-field>
+  </form>
+</div>
+<div class="player-select" *ngIf="numberPlayers > 3">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter Player 4 Name" (change)="onSelectPlayer($event.target.value,4)" value="{{player4}}">
+    </mat-form-field>
+  </form>
+</div>
+</div>
+
+<div class="flex-container">
+  <div class="player-select" *ngIf="numberPlayers > 4">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enter Player 5 Name" (change)="onSelectPlayer($event.target.value,5)" value="{{player5}}">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="player-select" *ngIf="numberPlayers > 5">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enter Player 6 Name" (change)="onSelectPlayer($event.target.value,6)" value="{{player6}}">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="player-select" *ngIf="numberPlayers > 6">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enter Player 7 Name" (change)="onSelectPlayer($event.target.value,7)" value="{{player7}}">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="player-select" *ngIf="numberPlayers > 7">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enter Player 8 Name" (change)="onSelectPlayer($event.target.value,8)" value="{{player8}}">
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<!--
+
+<div class="player-select" *ngIf="numberPlayers > 0">
+  <mat-form-field>
+    <mat-label>Select Player</mat-label>
+    <mat-select id="select-player-1" class="select-player"
+                (selectionChange)="onSelectPlayer(player1)"
+                [(value)]="player1">
+      <mat-option *ngFor="let playerName of availablePlayers" [value]="playerName">
+        {{playerName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="player-select" *ngIf="numberPlayers > 1">
+  <mat-form-field>
+    <mat-label>Select Player</mat-label>
+    <mat-select id="select-player-2" class="select-player"
+                (selectionChange)="onSelectPlayer(player2)"
+                [(value)]="player2">
+      <mat-option *ngFor="let playerName of availablePlayers" [value]="playerName">
+        {{playerName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="player-select" *ngIf="numberPlayers > 2">
+  <mat-form-field>
+    <mat-label>Select Player</mat-label>
+    <mat-select id="select-player-3" class="select-player"
+                (selectionChange)="onSelectPlayer(player3)"
+                [(value)]="player3">
+      <mat-option *ngFor="let playerName of availablePlayers" [value]="playerName">
+        {{playerName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="player-select" *ngIf="numberPlayers > 3">
+  <mat-form-field>
+    <mat-label>Select Player</mat-label>
+    <mat-select id="select-player-4" class="select-player"
+                (selectionChange)="onSelectPlayer(player4)"
+                [(value)]="player4">
+      <mat-option *ngFor="let playerName of availablePlayers" [value]="playerName">
+        {{playerName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+-->
+<div>
+  <button mat-raised-button color="primary" class="button submit-button" id="submit-button" [disabled]="canSubmit()" (click)="submit($event)">Let's Go</button>
+</div>

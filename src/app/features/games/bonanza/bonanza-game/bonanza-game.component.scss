@@ -1,0 +1,105 @@
+
+/*.bail-button{
+  float:right;
+  margin-top: 200px;
+  display: block;
+  width: 10%;
+  height: 40px;
+}*/
+
+/*
+VERSION WITH GRID
+.parent {
+  height:80vh;
+  width:95vw;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+.leaderboard { grid-area: 1 / 1 / 3 / 4; border: black;}
+.history { grid-area: 1 / 4 / 6 / 6; border: black;}
+.current { grid-area: 3 / 1 / 6 / 4; border: black;}*/
+
+
+
+/*
+// VERSION WITH FLOATS
+
+.leaderboard {
+  padding: 10px;
+  width: 100%;
+}
+
+.top {
+  float: left;
+  padding: 10px;
+  height: 10vh; !* Should be removed. Only for demonstration *!
+}
+
+!* Create two unequal columns that floats next to each other *!
+.column {
+  float: left;
+  padding: 10px;
+  height: 60vh; !* Should be removed. Only for demonstration *!
+}
+
+!* Left and right column *!
+.column.current {
+  width: 35%;
+
+}
+
+!* Middle column *!
+.column.history {
+  width: 65%;
+}
+
+!* Clear floats after the columns *!
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+*/
+
+
+.game-container {
+  margin-top: 56px !important;
+  height: 80vh;
+  width: 95vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  height: 90%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "two two"
+    "three one"
+}
+
+.one {
+  grid-area: one;
+}
+
+.two {
+  grid-area: two;
+  height: 300px;
+}
+
+.three {
+  background: blue;
+  grid-area: three;
+}
+
+
+
+
+
+
