@@ -1,0 +1,89 @@
+.container {  
+    
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+  }
+  
+  .cricket-container { 
+    grid-area: 1 / 1 / 9 / 5; 
+    
+}
+  
+  .cricket-left-side { 
+    grid-area: 1 / 1 / 9 / 2; 
+  }
+  
+  .cricket-left-header { 
+    grid-area: 1 / 1 / 2 / 2; 
+    
+}
+
+.center-text {
+    text-align: center;
+}
+
+  
+  .cricket-left-bottom { grid-area: 2 / 1 / 9 / 2;}
+  
+  .cricket-left-bottom-throws { grid-area: 5 / 1 / 9 / 2; }
+  
+  .cricket-left-bottom-stats { grid-area: 2 / 1 / 4 / 2; }
+  
+  .cricket-left-bottom-btns { grid-area: 4 / 1 / 5 / 2; }
+  
+  .cricket-right-side { grid-area: 1 / 2 / 9 / 5; }
+  
+  .cricket-right-header { 
+    display:flex;
+    grid-area: 1 / 2 / 2 / 5; 
+   
+}
+  
+  .cricket-score-container { grid-area: 2 / 2 / 9 / 5; }
+  
+  .cricket-score-left-team { 
+    grid-area: 2 / 2 / 9 / 3; 
+    border: 1px solid lightgrey;
+}
+  
+  .cricket-score-right-team { 
+    grid-area: 2 / 4 / 9 / 5; 
+    border: 1px solid lightgrey;
+}
+  
+
+.cricket-score-middle {
+    grid-area: 2 / 3 / 9 / 4; 
+    border: 1px solid lightgrey;
+}
+
+.cricket-score-divider {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cricket-score-divider > div {
+    flex-grow: 1;
+    border: 1px solid lightgrey;
+}
+
+  .left-team-div{
+    width: 100%;
+    border: 1px solid lightgrey;
+  }
+
+  .middle-round-div{
+    width: 100%;
+    border: 1px solid lightgrey;
+  }
+
+  .right-team-div{
+    width: 100%;
+    border: 1px solid lightgrey;
+  }
+
+  
