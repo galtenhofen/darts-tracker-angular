@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/users.service';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { User, UserImpl } from 'src/app/models/user.model';
 import { NGXLogger } from 'ngx-logger';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
@@ -13,9 +15,13 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+
   displayedColumns: string[] = ['userId', 'name', 'email', 'actions'];
   dataSource = new MatTableDataSource<User>();
   userList: User[] = [];
+  filteredUserList: User[] = [];
+
+  
 
   constructor(
     private logger: NGXLogger,
@@ -25,6 +31,7 @@ export class UserListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.filteredUserList = this.userList.slice();
     this.titleService.setTitle('Users');
     this.logger.log('Users loaded');
     this.refreshTable();
@@ -51,4 +58,7 @@ export class UserListComponent implements OnInit {
     this.usersService.deleteUser(userId);
     this.refreshTable();
   }
+
+
+ 
 }

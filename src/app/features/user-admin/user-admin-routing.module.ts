@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LayoutComponent } from 'src/app/shared/layout/layout.component';
+import { UserAdminComponent } from './user-admin/user-admin.component';
 
-import { LayoutComponent } from '../../shared/layout/layout.component';
-import { TeamComponent } from './teams/team.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: TeamComponent },
+      { path: '', component: UserAdminComponent },
     ]
   }
 ];
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TeamRoutingModule { }
+export class UsersRoutingModule { }

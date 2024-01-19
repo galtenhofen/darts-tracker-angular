@@ -1,24 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
-
-import { GameListComponent } from './game-list/game-list.component';
+import { StartOptionsComponent } from 'src/app/shared/start-options/start-options.component';
+import { GameContainerComponent } from './game-container/game-container.component';
 import { CricketComponent } from './cricket/cricket.component';
 
 const routes: Routes = [
-  // {
-  //   path: 'games',
-  //   component: LayoutComponent,
-  //   children: [
-  //     { path: 'cricket', component: CricketComponent },
-  //   ]
-  // },
   {
     path: '',
     component: LayoutComponent,
     children: [
+      { path: 'cricket/options', component: StartOptionsComponent },
      { path: 'cricket', component: CricketComponent },
-      { path: '', component: GameListComponent },
+      { path: '', component: GameContainerComponent },
     ]
   }
 ];

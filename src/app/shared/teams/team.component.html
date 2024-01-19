@@ -35,36 +35,6 @@
           <button class="create-team-btn" mat-raised-button (click)="openCreateTeamDialog()">Create New Team</button>
         </div>
 
-        <!-- <mat-expansion-panel class="create-team-container" [expanded]="isCreateTeamPanelOpen">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Create New Team</mat-panel-title>
-          </mat-expansion-panel-header>
-        
-          <div class="create-team-content">
-            <div class="input-group">
-              <label for="teamName">Team Name:</label>
-              <input type="text" id="teamName" [(ngModel)]="newTeamName" required>
-            </div>
-        
-            <div class="input-group">
-              <label for="user1">Select User 1:</label>
-              <select id="user1" [(ngModel)]="selectedUser1">
-                <option *ngFor="let user of availableUsers" [value]="user">{{ user.firstName }} {{ user.lastName }}</option>
-              </select>
-            </div>
-        
-            <div class="input-group">
-              <label for="user2">Select User 2:</label>
-              <select id="user2" [(ngModel)]="selectedUser2">
-                <option *ngFor="let user of availableUsers" [value]="user">{{ user.firstName }} {{ user.lastName }}</option>
-              </select>
-            </div>
-        
-            <button mat-raised-button (click)="createTeam()">Create Team</button>
-          </div>
-        </mat-expansion-panel> -->
-        
-       
       </mat-card-content>
     </mat-card>
 

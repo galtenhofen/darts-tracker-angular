@@ -1,7 +1,6 @@
 // teams.component.ts
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Team } from 'src/app/models/team.model';
-import { TeamService } from 'src/app/services/teams.service';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/users.service';
 import Swal from 'sweetalert2';
@@ -22,15 +21,15 @@ export class TeamComponent implements OnInit {
   newTeamName: string = ''; 
   dataSource = new MatTableDataSource<Team>();
 
-  constructor(private teamsService: TeamService, private usersService: UserService, private cdr: ChangeDetectorRef) {}
+  constructor( private userService: UserService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
    this.refreshTable();
   }
 
   refreshTable(): void {
-    this.availableUsers = this.usersService.getUsers();
-    this.teams = this.teamsService.getTeams();
+    this.availableUsers = this.userService.getUsers();
+    this.teams = this.userService.getTeams();
     this.dataSource.data = this.teams;
   }
 
@@ -86,7 +85,7 @@ export class TeamComponent implements OnInit {
       };
 
       
-      this.teamsService.createTeam(newTeam);
+      this.userService.createTeam(newTeam);
       this.refreshTable();
       this.cdr.detectChanges();
 

@@ -105,32 +105,20 @@
 
       <mat-nav-list>
 
-        <a mat-list-item [routerLink]="['/games']" routerLinkActive="active">
+        <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active" >
           <mat-icon mat-list-icon>
             games
           </mat-icon>
           <p mat-line> Games </p>
         </a>
 
-        <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active">
+        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
           <mat-icon mat-list-icon>
             settings
           </mat-icon>
-          <p mat-line> Admin </p>
+          <p mat-line> User Admin </p>
         </a>
-     
-        <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            person
-          </mat-icon>
-          <p mat-line> Players </p>
-        </a>
-        <a mat-list-item [routerLink]="['/teams']" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            people
-          </mat-icon>
-          <p mat-line> Teams </p>
-        </a>
+
         <a mat-list-item [routerLink]="['/stats']" routerLinkActive="active">
           <mat-icon mat-list-icon>
             info
@@ -151,34 +139,6 @@
 
         <mat-divider></mat-divider>
 
-        <!-- <h3 mat-subheader>Resources</h3>
-
-        <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            toll
-          </mat-icon>
-          <p mat-line> Icons </p>
-        </a>
-        <a mat-list-item [routerLink]="['/typography']" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            font_download
-          </mat-icon>
-          <p mat-line> Typography </p>
-        </a>
-
-        <a mat-list-item href="https://material.angular.io/components/categories" target="_blank">
-          <mat-icon mat-list-icon>
-            link
-          </mat-icon>
-          <p mat-line> Material Components </p>
-        </a>
-
-        <a id="push-bottom" mat-list-item [routerLink]="['/about']" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            info_outline
-          </mat-icon>
-          <p mat-line> About </p>
-        </a>-->
       </mat-nav-list> 
 
     </mat-sidenav>

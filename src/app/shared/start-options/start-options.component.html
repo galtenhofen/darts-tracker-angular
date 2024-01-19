@@ -1,0 +1,92 @@
+<div *ngIf="gameStarted===false && gameType===''" class ="container-fluid" style="height: 100%; margin-top: 70px; margin-bottom: 70px; text-align:center;">
+    <div class="single-btn-container"> 
+        <button mat-raised-button color="primary" id="start-team-button" (click)="startTeam()" > Team Game </button>
+        <button mat-raised-button color="primary" id="start-button" (click)="start()" > Individual Game </button>
+      </div>
+  </div>
+  <div class="step-container" *ngIf="gameStarted === false && gameType==='individual'">
+    <mat-card class="step-card">
+      <mat-card-content>
+
+        <mat-stepper #stepper>
+           <mat-step>
+            <ng-template matStepLabel>{{ selectedUser1 || 'Select First Player (Home)'}}</ng-template>
+            <mat-form-field>
+              <mat-select [(ngModel)]="userOne"
+              placeholder="Player One"
+                          (selectionChange)="onSelectPlayerOne(userOne, stepper)">
+                <mat-option *ngFor="let user of availablePlayers" [value]="user">{{ user.firstName }} {{ user.lastName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>{{ selectedUser2 || 'Select Second Player (Away)'}}</ng-template>
+            <mat-form-field>
+              <mat-select [(ngModel)]="userTwo"
+              placeholder="PlayerTwo"
+              (selectionChange)="onSelectPlayerTwo(userTwo, stepper)">
+                <mat-option *ngFor="let user of filteredUserList" [value]="user">{{ user.firstName }} {{ user.lastName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div>
+              <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Go in order?</ng-template>
+            <div>
+              <mat-slide-toggle [checked]="true" (change)="setMessage($event)">{{message}}</mat-slide-toggle>
+
+              <button class="next-button" mat-raised-button color="primary" matStepperNext>Next</button>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Start Game</ng-template>
+            <div>
+              <button mat-raised-button color="primary" (click)="enableStartGame('individual')">Start Game</button>
+            </div>
+          </mat-step>
+        </mat-stepper>
+
+      </mat-card-content>
+      </mat-card> 
+    </div>
+
+    <div class="step-container" *ngIf="gameStarted === false && gameType==='team'">
+      <mat-card class="step-card">
+        <mat-card-content>
+          <mat-stepper #teamStepper>
+             <mat-step>
+              <ng-template matStepLabel>{{ selectedTeam1 || 'Select Home Team'}}</ng-template>
+              <mat-form-field>
+                <mat-select [(ngModel)]="teamOne"
+                placeholder="Home Team"
+                            (selectionChange)="onSelectHomeTeam(teamOne, teamStepper)">
+                  <mat-option *ngFor="let team of availableTeams" [value]="team">{{ team.teamName }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>{{ selectedTeam2 || 'Select Away'}}</ng-template>
+              <mat-form-field>
+                <mat-select [(ngModel)]="teamTwo"
+                placeholder="Away Team"
+                (selectionChange)="onSelectAwayTeam(teamTwo, teamStepper)">
+                  <mat-option *ngFor="let team of filteredTeamList" [value]="team">{{ team.teamName }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div>
+                <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Start Game</ng-template>
+              <div>
+                <button mat-raised-button color="primary" (click)="enableStartGame('team')">Start Game</button>
+              </div>
+            </mat-step>
+          </mat-stepper>
+  
+        </mat-card-content>
+        </mat-card> 
+      </div>

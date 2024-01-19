@@ -7,7 +7,7 @@ export class CricketTeam {
   playerTwo: CricketPlayer;
   retribution: boolean;
 
-  constructor(teamId, teamName, player1, player2, retribution){
+  constructor(teamId: number, teamName: string, player1: CricketPlayer, player2: CricketPlayer, retribution: boolean){
     this.teamId = teamId;
     this.teamName = teamName;
     this.playerOne = player1;

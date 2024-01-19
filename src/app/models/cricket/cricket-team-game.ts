@@ -22,7 +22,7 @@ export class CricketTeamGame {
   isActive: boolean;
   isWinner: boolean;
 
-  constructor(team) {
+  constructor(team: CricketTeam) {
     this.team = team;
     this.rounds = [];
     this.twenties = 0;

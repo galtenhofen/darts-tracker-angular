@@ -6,7 +6,7 @@ export class CricketRound {
   bib: boolean;
   moreDarts: boolean;
 
-  constructor(playerId) {
+  constructor(playerId: number) {
     this.playerId = playerId;
     this.darts = [];
     this.bib = false;

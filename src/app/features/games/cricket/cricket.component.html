@@ -1,54 +1,135 @@
+<!-- 
+<div *ngIf="gameStarted===false" class ="container-fluid" style="height: 100%; margin-top: 70px; margin-bottom: 70px; text-align:center;">
+
+    <div class="single-btn-container"> <button mat-raised-button color="primary" id="start-team-button" (click)="start()" > Start Team Game </button><button mat-raised-button color="primary" id="start-button" (click)="start()" > Start Individual Game </button></div>
+  </div> -->
+
 <div class="container">
     <div class="cricket-container"></div>
     <div class="cricket-left-side"></div>
     <div class="cricket-left-header">
-        <div class="player-turn-div"> 
-            <h2 class="center-text">Now Shooting: Player 1</h2>
-        </div>
+      <div class="player-turn-div">
+        <h2 class="center-text">Now Shooting: Player 1</h2>
+      </div>
     </div>
     <div class="cricket-left-bottom"></div>
-    <div class="cricket-left-bottom-throws"></div>
-    <div class="cricket-left-bottom-stats"></div>
-    <div class="cricket-left-bottom-btns"></div>
-    <div class="cricket-right-side"></div>
-    <div class="cricket-right-header">
-        <div class="left-team-div">
-            <h2 class="center-text">Team 1</h2>
-        </div>
-        <div class="middle-round-div">
-            <h2 class="center-text">Round: 1</h2>
-        </div>
-        <div class="right-team-div">
-            <h2 class="center-text">Team 2</h2>
-        </div>
-    </div>
-    <div class="cricket-score-container"></div>
-    <div class="cricket-score-left-team cricket-score-divider">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="cricket-score-right-team cricket-score-divider">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
     
-    <div class="cricket-score-middle cricket-score-divider">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div class="cricket-left-bottom-stats">
+        <div class="current-stat-header">
+
+        </div>
+        <div class="current-stat-detail">
+
+        </div>
     </div>
-  </div>
+    <div class="cricket-left-bottom-btns">
+      <button class="next-player-btn" mat-raised-button color="primary">Next Player</button>
+      <button class="undo-btn" mat-raised-button color="warn">Undo</button>
+      <button class="prev-player-btn" mat-raised-button color="primary">Next Player</button>
+    </div>
+    <div class="cricket-left-bottom-throws">
+
+
+    </div>
+
+    <div class="cricket-right-side">
+       <div class="shade">
+        <div class="cricket-right-header">
+          <div class="left-team-div">
+            <h2 class="chalk-text">Team 1</h2>
+          </div>
+          <div class="middle-round-div">
+            <h2 class="chalk-text">Round: 1</h2>
+          </div>
+          <div class="right-team-div">
+            <h2 class="chalk-text">Team 2</h2>
+          </div>
+        </div>
+
+        <div class="cricket-right-header">
+            <div class="left-team-div left-20">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">20</h2>
+            </div>
+            <div class="right-team-div right-20">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">19</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">18</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">17</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">16</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">15</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+          <div class="cricket-right-header">
+            <div class="left-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+            <div class="middle-round-div">
+              <h2 class="chalk-text">Bull</h2>
+            </div>
+            <div class="right-team-div">
+              <h2 class="chalk-text"></h2>
+            </div>
+          </div>
+
+    </div>  <!-- cricket-right-side -->  
+</div>
+<link href="https://fonts.cdnfonts.com/css/callie-chalk-font" rel="stylesheet">

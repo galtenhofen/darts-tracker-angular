@@ -1,12 +1,13 @@
+
 .container {  
-    
+    height: 94%;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     grid-template-rows: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
   }
-  
+
   .cricket-container { 
     grid-area: 1 / 1 / 9 / 5; 
     
@@ -23,53 +24,95 @@
 
 .center-text {
     text-align: center;
+    z-index: 99;                                          
 }
 
-  
-  .cricket-left-bottom { grid-area: 2 / 1 / 9 / 2;}
-  
-  .cricket-left-bottom-throws { grid-area: 5 / 1 / 9 / 2; }
-  
-  .cricket-left-bottom-stats { grid-area: 2 / 1 / 4 / 2; }
-  
-  .cricket-left-bottom-btns { grid-area: 4 / 1 / 5 / 2; }
-  
-  .cricket-right-side { grid-area: 1 / 2 / 9 / 5; }
-  
-  .cricket-right-header { 
-    display:flex;
-    grid-area: 1 / 2 / 2 / 5; 
-   
+.chalk-text {
+    text-align: center;
+    z-index: 99;
+    font-family: 'Callie Chalk Font', sans-serif;
+    color: white;                                           
 }
   
-  .cricket-score-container { grid-area: 2 / 2 / 9 / 5; }
+  .cricket-left-bottom { 
+    grid-area: 2 / 1 / 9 / 2;
+}
   
-  .cricket-score-left-team { 
-    grid-area: 2 / 2 / 9 / 3; 
+  .cricket-left-bottom-throws { 
+    grid-area: 5 / 1 / 9 / 2; 
     border: 1px solid lightgrey;
 }
   
-  .cricket-score-right-team { 
-    grid-area: 2 / 4 / 9 / 5; 
+  .cricket-left-bottom-stats { 
+    grid-area: 2 / 1 / 4 / 2; 
     border: 1px solid lightgrey;
 }
   
-
-.cricket-score-middle {
-    grid-area: 2 / 3 / 9 / 4; 
+  .cricket-left-bottom-btns { 
+    grid-area: 4 / 1 / 5 / 2; 
     border: 1px solid lightgrey;
 }
 
-.cricket-score-divider {
+.cricket-left-bottom-btns {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
 }
 
-.cricket-score-divider > div {
-    flex-grow: 1;
-    border: 1px solid lightgrey;
+.undo-btn{
+    margin-left: 50px;
+    margin-right: 50px;
 }
+  
+ .shade { 
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient( 150deg, rgba(0, 0, 0, 0.65), transparent);
+} 
+
+  .cricket-right-side {
+     grid-area: 1 / 2 / 9 / 5;  
+     display: flex;
+		position: relative;
+		width: 94%;
+        height: 98%;
+		/* margin: 7% auto; */
+		border: tan solid 12px;
+		border-top: #bda27e solid 12px;
+		border-left: #b19876 solid 12px;
+		border-bottom: #c9ad86 solid 12px;
+		box-shadow: 0px 0px 6px 5px rgba(58, 18, 13, 0), 0px 0px 0px 2px #c2a782, 0px 0px 0px 4px #a58e6f, 3px 4px 8px 5px rgba(0, 0, 0, 0.5);
+		background-image: radial-gradient( circle at left 30%, rgba(34, 34, 34, 0.3), rgba(34, 34, 34, 0.3) 80px, rgba(34, 34, 34, 0.5) 100px, rgba(51, 51, 51, 0.5) 160px, rgba(51, 51, 51, 0.5)), linear-gradient( 215deg, transparent, transparent 100px, #222 260px, #222 320px, transparent), radial-gradient( circle at right, #111, rgba(51, 51, 51, 1));
+		background-color: #333;
+}
+
+.cricket-right-side:before {
+		box-sizing: border-box;
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-image: linear-gradient( 175deg, transparent, transparent 40px, rgba(120, 120, 120, 0.1) 100px, rgba(120, 120, 120, 0.1) 110px, transparent 220px, transparent), linear-gradient( 200deg, transparent 80%, rgba(50, 50, 50, 0.3)), radial-gradient( ellipse at right bottom, transparent, transparent 200px, rgba(80, 80, 80, 0.1) 260px, rgba(80, 80, 80, 0.1) 320px, transparent 400px, transparent);
+		border: #2c2c2c solid 2px;
+		/* content: "Contact Us"; */
+		font-family: 'Permanent Marker', cursive;
+		font-size: 2.2em;
+		color: rgba(238, 238, 238, 0.7);
+		text-align: center;
+		padding-top: 20px;
+}
+    
+  
+  .cricket-right-header { 
+    display:flex;
+    height: 12.5%;
+}
+
 
   .left-team-div{
     width: 100%;

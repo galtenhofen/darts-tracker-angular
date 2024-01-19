@@ -21,3 +21,12 @@ table {
   .mat-icon-button {
     min-width: 0; /* Ensure the button doesn't stretch horizontally */
   }
+
+  .table-row {
+    height: 14px !important;
+    min-height: 14px !important;
+  }
+
+  .step-card{
+width: 50%;
+  }
