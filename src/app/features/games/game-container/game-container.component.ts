@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { CricketSettings } from 'src/app/models/settings/cricket-settings.model';
+import { CricketSettings, CricketSettingsImpl } from 'src/app/models/settings/cricket-settings.model';
 
 @Component({
   selector: 'app-game-container',
@@ -17,7 +17,10 @@ gameType: string = "";
 
   ngOnInit(): void {
     console.log('init game container - get settings')
-    this.cricketSettings = this.dataService.getCurrentCricketOptions();
+    this.dataService.getCurrentCricketOptions().subscribe(data=>{
+      this.cricketSettings = data;
+    });
+    //this.cricketSettings = this.dataService.getCurrentCricketOptions() ?? new CricketSettingsImpl;
     this.gameStarted = this.cricketSettings ? this.cricketSettings.gameStarted : false;
   }
 

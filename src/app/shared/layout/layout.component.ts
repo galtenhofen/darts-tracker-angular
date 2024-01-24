@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy, AfterViewInit, Input, 
 import { MediaMatcher } from '@angular/cdk/layout';
 import { timer } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { Router, NavigationEnd, NavigationExtras } from '@angular/router';
+import { Router, NavigationEnd, NavigationExtras, Data } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { SpinnerService } from '../../core/services/spinner.service';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { MatSidenav } from '@angular/material/sidenav';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-layout',
@@ -20,7 +21,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     showSpinner: boolean = false;
     userName: string = "";
     isAdmin: boolean = false;
-    currentRoute: string = "";
+    currentGame: string = "Darts";
 
     private autoLogoutSubscription: Subscription = new Subscription;
 
@@ -29,7 +30,8 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         public spinnerService: SpinnerService,
         private authService: AuthenticationService,
         private authGuard: AuthGuard,
-        private route: Router) {
+        private route: Router,
+        private dataService: DataService) {
 
         this.mobileQuery = this.media.matchMedia('(max-width: 10000px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -38,6 +40,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.currentGame = this.dataService.getGame();
         console.log('this.mobileQuery.matches', this.mobileQuery.matches);
         const user = this.authService.getCurrentUser();
 

@@ -10,16 +10,17 @@
 
     <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home">
       <h1>
-        Darts
+        Settings
       </h1>
     </a>
 
     <div class="navbar-menu-container">
     <div class="left-menu-container">
-
-    <button class="menu-button" mat-icon-button [matMenuTriggerFor]="settingsMenu">
+      <div class="current-game">
+        <span>{{currentGame ? currentGame : 'Cricket'}}</span>
+      </div>
+    <!-- <button class="menu-button" mat-icon-button [matMenuTriggerFor]="settingsMenu">
       Settings
-      <!-- <mat-icon matBadgeColor="accent">settings</mat-icon> -->
     </button>
     <mat-menu #settingsMenu="matMenu" xPosition="after" yPosition="above" [overlapTrigger]="false">
       <a mat-menu-item>
@@ -28,23 +29,23 @@
       <a mat-menu-item>
         <span>You have a new message</span>
       </a>
-    </mat-menu>
+    </mat-menu> -->
 
     <!-- Actions Menu -->
-    <button class="menu-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <!-- <button class="menu-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
       Actions
     </button>
     <mat-menu #actionsMenu="matMenu" xPosition="after" yPosition="above" [overlapTrigger]="false">
       <a mat-menu-item>
-        <span>Action 1</span>
+        <span>Show Current</span>
       </a>
       <a mat-menu-item>
-        <span>Action 2</span>
+        <span>Edit</span>
       </a>
-    </mat-menu>
+    </mat-menu> -->
 
     <!-- View Menu -->
-    <button class="menu-button" mat-icon-button [matMenuTriggerFor]="viewMenu">
+    <!-- <button class="menu-button" mat-icon-button [matMenuTriggerFor]="viewMenu">
       View
     </button>
     <mat-menu #viewMenu="matMenu" xPosition="after" yPosition="above" [overlapTrigger]="false">
@@ -54,7 +55,7 @@
       <a mat-menu-item>
         <span>View Option 2</span>
       </a>
-    </mat-menu>
+    </mat-menu> -->
 
     </div>
  
@@ -159,3 +160,4 @@
   </mat-sidenav-container>
 
 </div>
+<link href="https://fonts.cdnfonts.com/css/komika-display-kaps-wide" rel="stylesheet">

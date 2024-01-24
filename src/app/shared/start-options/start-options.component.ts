@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { User } from 'src/app/models/user.model';
 import { Team } from 'src/app/models/team.model';
 import { UserService } from 'src/app/services/users.service';
-import { CricketSettings } from 'src/app/models/settings/cricket-settings.model';
+import { CricketSettings, CricketSettingsImpl } from 'src/app/models/settings/cricket-settings.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class StartOptionsComponent implements OnInit {
   @ViewChild('stepper') stepper: any;
   @ViewChild('teamStepper') teamStepper: any;
 
-  cricketSettings: CricketSettings | undefined;// = new CricketSettingsImpl();
+  cricketSettings: CricketSettings = new CricketSettingsImpl();
   
   playerOne!: CricketPlayer;
   playerTwo!: CricketPlayer;
@@ -64,7 +64,11 @@ export class StartOptionsComponent implements OnInit {
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log('init start options');
+    this.dataService.getCurrentCricketOptions().subscribe(data=>{
+      this.cricketSettings = data;
+    });
+    //this.cricketSettings = this.dataService.getCurrentCricketOptions();
+    console.log('init start options', this.cricketSettings);
     this.availablePlayers = this.userService.getUsers();
     this.availableTeams = this.userService.getTeams();
   }
@@ -80,14 +84,14 @@ export class StartOptionsComponent implements OnInit {
     console.log('Enter createNewTeam');
   }
 
-  getPlayerList(currentPlayers: any[]) {
-    console.log('***Enter setPlayerList');
-      currentPlayers.forEach(function(this: any, item: { firstName: string; lastName: string; playerId: number; }) {
-      const newPlayer = new CricketPlayer(item.firstName, item.lastName, item.playerId);
-      this.playerList.push(newPlayer);
-    });
-    console.log('this.playerList', this.availablePlayers);
-  }
+  // getPlayerList(currentPlayers: any[]) {
+  //   console.log('***Enter setPlayerList');
+  //     currentPlayers.forEach(function(this: any, item: { firstName: string; lastName: string; playerId: number; }) {
+  //     const newPlayer = new CricketPlayer(item.firstName, item.lastName, item.playerId);
+  //     this.playerList.push(newPlayer);
+  //   });
+  //   console.log('this.playerList', this.availablePlayers);
+  // }
 
   setQuickstartPlayerList() {
     //this.userList.push(this.firstPlayerGame.player);
@@ -164,8 +168,8 @@ this.gameType = 'team';
   enableQuickStart() {
     console.log('***Enter enableQuickStart');
     this.quickStart = true;
-    this.playerOne = new CricketPlayer('Gabe', 'Altenhofen', 1);
-    this.playerTwo = new CricketPlayer('Craig', 'Freyman', 2);
+    this.playerOne = new CricketPlayer(998,'Player1', '', 1);
+    this.playerTwo = new CricketPlayer(999,'Player2', '', 2);
     this.firstPlayerGame = new CricketGame(this.playerOne);
     this.secondPlayerGame = new CricketGame(this.playerTwo);
 
@@ -317,7 +321,7 @@ this.gameType = 'team';
       this.dataService.setCricketOptions(gameType,2,[this.userOne.userId, this.userTwo.userId],this.inOrder,true,[],0);
 const settings = this.dataService.getCurrentCricketOptions();
 console.log('settings: ', settings);
-this.router.navigate(['/games']);
+this.router.navigate(['/games/cricket']);
 }
     else if(gameType ==='team'){
       this.dataService.setCricketOptions(gameType,0,[],this.inOrder,true,[this.teamOne.teamId,this.teamTwo.teamId],2);

@@ -1,5 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import { UserService } from 'src/app/services/users.service';
 import { CricketPlayer } from 'src/app/models/cricket/cricket-player';
 import {CricketTeam} from 'src/app/models/cricket/cricket-team';
 import {CricketRoundTeam} from 'src/app/models/cricket/cricket-round-team';
@@ -8,6 +9,7 @@ import {CricketGame} from 'src/app/models/cricket/cricket-game';
 import { CricketTeamGame } from 'src/app/models/cricket/cricket-team-game';
 import {CricketHit} from 'src/app/models/cricket/cricket-hit';
 import Swal from 'sweetalert2';
+import { CricketSettings } from 'src/app/models/settings/cricket-settings.model';
 
 @Component({
   selector: 'app-cricket',
@@ -15,8 +17,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./cricket.component.css']
 })
 export class CricketComponent implements OnInit {
-  playerOne!: CricketPlayer;
-  playerTwo!: CricketPlayer;
+  cricketSettings!: CricketSettings;
+
+  playerOne: CricketPlayer = new CricketPlayer(998,'Player 1','');
+  playerTwo: CricketPlayer = new CricketPlayer(999,'Player 2','');;
   playerThree!: CricketPlayer;
   playerFour!: CricketPlayer;
   availablePlayers: any[]=[];
@@ -85,12 +89,54 @@ export class CricketComponent implements OnInit {
                                 if (event.key === 'i' )  {this.undoTurn(); }
   }
 
-  constructor(public dataService: DataService) { }
+  constructor(public dataService: DataService, public userService: UserService) { }
   ngOnInit() {
-    //this.availablePlayers = this.dataService.getPlayers();
+    this.dataService.getCurrentCricketOptions().subscribe(data=>{
+      this.cricketSettings = data;
+    });
+    console.log('settings: ', this.cricketSettings);
+    this.gameSetup();
 
   }
 
+  gameSetup(){
+    if(this.cricketSettings?.gameType==='team'){
+       this.buildTeams();
+    }
+    else {  
+      this.buildPlayers();
+      this.setOrder();
+      this.startNewRound();
+    }
+  }
+
+  buildPlayers(){
+    let user1 = this.userService.getUserById(this.cricketSettings.playerIdList[0]);
+    console.log('user1', user1);
+    if (user1 !== undefined) {
+    this.playerOne = new CricketPlayer(this.cricketSettings.playerIdList[0], user1.firstName, user1.lastName, undefined);
+    this.firstPlayerGame = new CricketGame(this.playerOne);
+    console.log('buildPlayers  this.playerOne', this.playerOne);
+    console.log('buildPlayers  this.firstPlayerGame', this.firstPlayerGame);
+    this.playerList.push(this.playerOne);
+}
+    let user2 = this.userService.getUserById(this.cricketSettings.playerIdList[1]);
+    console.log('user2', user2);
+    if (user2 !== undefined) {
+    this.playerTwo = new CricketPlayer(this.cricketSettings.playerIdList[1], user2.firstName, user2.lastName, undefined);
+    this.secondPlayerGame = new CricketGame(this.playerTwo);
+    console.log('buildPlayers  this.playerTwo', this.playerTwo);
+    console.log('buildPlayers  this.secondPlayerGame', this.secondPlayerGame);
+    this.playerList.push(this.playerTwo);
+}  
+
+this.currentPlayer = this.playerOne;
+console.table(this.playerList);
+  }
+
+  buildTeams(){
+
+  }
 
   showSingle() {
     this.multiplier = 1;
@@ -152,8 +198,20 @@ export class CricketComponent implements OnInit {
     }
   }
 
+  onPreviousPlayer() {
+    this.undoTurn();
+    if (this.playerIterator < (this.playerList.length - 1)) {
+      this.playerIterator++;
+      this.currentPlayer = this.playerList[this.playerIterator];
+    }  else {
+      this.playerIterator = 0;
+      this.currentPlayer = this.playerList[this.playerIterator];
+    }
+  }
+
   startNewRound() {
     console.log('***Enter startNewRound');
+    console.log('this.currentPlayer',this.currentPlayer);
     this.currentRound = new CricketRound(this.currentPlayer.playerId);
     console.log('currentRound: ', this.currentRound);
   }
@@ -172,9 +230,9 @@ export class CricketComponent implements OnInit {
   
     setOrder() {
       console.log('***Enter setOrder');
-      if (this.quickStart === true) {
-        this.setQuickstartPlayerList();
-      }
+      // if (this.quickStart === true) {
+      //   this.setQuickstartPlayerList();
+      // }
       this.currentPlayer = this.playerList[this.playerIterator];
       this.currentPlayerId = this.playerIdList[this.playerIdIterator];
       console.log('currentPlayer', this.currentPlayer);
@@ -195,14 +253,14 @@ export class CricketComponent implements OnInit {
       this.playerList.push(this.homeTeamGame.team.playerTwo);
     }
   
-    getPlayerList(currentPlayers: any[]) {
-      console.log('***Enter setPlayerList');
-        currentPlayers.forEach(function(this: any, item: { firstName: string; lastName: string; playerId: number; }) {
-        const newPlayer = new CricketPlayer(item.firstName, item.lastName, item.playerId);
-        this.playerList.push(newPlayer);
-      });
-      console.log('this.playerList', this.playerList);
-    }
+    // getPlayerList(currentPlayers: any[]) {
+    //   console.log('***Enter setPlayerList');
+    //     currentPlayers.forEach(function(this: any, item: { firstName: string; lastName: string; playerId: number; }) {
+    //     const newPlayer = new CricketPlayer(item.firstName, item.lastName, item.playerId);
+    //     this.playerList.push(newPlayer);
+    //   });
+    //   console.log('this.playerList', this.playerList);
+    // }
   
   
   /*onNextTeamPlayer() {
@@ -402,6 +460,7 @@ export class CricketComponent implements OnInit {
   }
 
   onHit20(multiplier: number) {
+    console.log('hit 20');
     const hit = new CricketHit(20, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.currentRound.darts.length < 3 && this.firstPlayerGame.twentyClosed === false) {
@@ -430,6 +489,7 @@ export class CricketComponent implements OnInit {
     }
   }
   onHit19(multiplier: number) {
+    console.log('hit 19');
     const hit = new CricketHit(19, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.nineteenClosed === false) {
@@ -457,6 +517,7 @@ export class CricketComponent implements OnInit {
   }
 
   onHit18(multiplier: number) {
+    console.log('hit 18');
     const hit = new CricketHit(18, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.eighteenClosed === false) {
@@ -486,6 +547,7 @@ export class CricketComponent implements OnInit {
   }
 
   onHit17(multiplier: number) {
+    console.log('hit 17');
     const hit = new CricketHit(17, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.seventeenClosed === false) {
@@ -516,6 +578,7 @@ export class CricketComponent implements OnInit {
     }
   }
   onHit16(multiplier: number) {
+    console.log('hit 16');
     const hit = new CricketHit(16, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.sixteenClosed === false) {
@@ -546,6 +609,7 @@ export class CricketComponent implements OnInit {
     }
   }
   onHit15(multiplier: number) {
+    console.log('hit 15');
     const hit = new CricketHit(15, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.fifteenClosed === false) {
@@ -576,6 +640,7 @@ export class CricketComponent implements OnInit {
     }
   }
   onHitBullseye(multiplier: number) {
+    console.log('hit bull');
     const hit = new CricketHit(25, multiplier);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.throwNum <= 3 && this.firstPlayerGame.bullseyeClosed === false) {
@@ -606,6 +671,7 @@ export class CricketComponent implements OnInit {
     }
   }
   onMiss()  {
+    console.log('ain\'t hit shit');
     const hit = new CricketHit(0, 0);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
       if (this.currentRound.darts.length < 3) {

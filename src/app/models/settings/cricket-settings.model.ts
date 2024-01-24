@@ -15,7 +15,7 @@ export interface CricketSettings {
     constructor(
       public gameType: string = 'individual',
       public numPlayers: number = 2,
-      public playerIdList: number[]=[-1,-2],
+      public playerIdList: number[]=[998,999],
       public teamIdList: number[]=[],
       public numTeams?: number,
       public inOrder: boolean = true,

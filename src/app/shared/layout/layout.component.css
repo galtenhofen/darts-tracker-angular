@@ -1,5 +1,5 @@
 .navbar-spacer {
-  flex: 1 1 auto;
+  flex:1 1 auto;
 }
 
 .navbar {
@@ -31,8 +31,15 @@
 }
 
 .left-menu-container {
-  width: 60%;
-  margin-left: 70px;
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+}
+.current-game{
+ font-family: 'Komika Display Kaps Wide', sans-serif;
+  font-size: 50px;
+  align-items: center;
 }
 
 .menu-button {
@@ -75,9 +82,9 @@ mat-sidenav {
 
 /* Set height of wrapper to stop content from moving up & down */
 
-.progress-bar-container {
+/* .progress-bar-container {
   height: 5px;
-}
+} */
 
 a.mat-list-item.active {
   background: rgba(0, 0, 0, .04);

@@ -9,8 +9,6 @@ import { Team } from '../models/team.model';
 export class UserService {
 
   users: User[] = [
-    {userId: -1, firstName: 'Player 1', lastName: '', email: ''},
-    {userId: -2, firstName: 'Player 2', lastName: '', email: ''},
     {userId: 1, firstName: 'Gabe', lastName: 'Altenhofen', email: 'heyitsgabe@hotmail.com'},
     {userId: 2, firstName: 'Shezza', lastName: 'Altenhofen', email: 'shezzafromnz@yahoo.co.uk'},
     {userId: 3, firstName: 'Luke', lastName: 'Lorenz', email: 'luke.jlorenz@gmail.com'},
@@ -24,7 +22,11 @@ export class UserService {
     {userId: 11,  firstName: 'RJ', lastName: 'Miller', email: 'arejaymils@gmail.com'},
     {userId: 12,  firstName: 'Walter', lastName: 'Olsen', email: 'walteraolsen45@gmail.com'},
     {userId: 13,  firstName: 'Eric', lastName: 'Mikolitch', email: 'mikolitche@gmail.com'},
-    {userId: 14,  firstName: 'Kirk', lastName: 'Schoch', email: 'kirkwschoch@gmail.com'}    ];
+    {userId: 14,  firstName: 'Kirk', lastName: 'Schoch', email: 'kirkwschoch@gmail.com'},
+    {userId: 996, firstName: 'Player 1', lastName: '', email: ''},
+    {userId: 997, firstName: 'Player 2', lastName: '', email: ''},
+    {userId: 998, firstName: 'Player 3', lastName: '', email: ''},
+    {userId: 999, firstName: 'Player 4', lastName: '', email: ''}   ];
 
   teams: Team[] = [
     {teamId: 1, teamName: 'The Donnybrooks', users: [{userId: 1, firstName: 'Gabe', lastName: 'Altenhofen', email: 'heyitsgabe@hotmail.com'},
@@ -38,12 +40,20 @@ export class UserService {
     {teamId: 4, teamName: 'Alan Evans', users: [    {userId: 9, firstName: 'Lance', lastName: 'McElhinney', email: 'linneymc@yahoo.com'},
     {userId: 10,  firstName: 'Erik', lastName: 'Bechtold', email: 'erkbechtold@hotmail.com'}]},
     {teamId: 6, teamName: 'Needle Nose', users: [ {userId: 13,  firstName: 'Eric', lastName: 'Mikolitch', email: 'mikolitche@gmail.com'},
-    {userId: 14,  firstName: 'Kirk', lastName: 'Schoch', email: 'kirkwschoch@gmail.com'}]}
+    {userId: 14,  firstName: 'Kirk', lastName: 'Schoch', email: 'kirkwschoch@gmail.com'}]},
+    {teamId: 998, teamName: 'Default One', users: [ {userId: 996,  firstName: 'Player 1', lastName: '', email: ''},
+    {userId: 997,  firstName: 'Player 2', lastName: '', email: ''}]},
+    {teamId: 999, teamName: 'Default Two', users: [ {userId: 998,  firstName: 'Player 3', lastName: '', email: ''},
+    {userId: 999,  firstName: 'Player 4', lastName: '', email: ''}]}
   ];
 
 
   getUsers(): User[] {
     return this.users;
+  }
+
+  getUserById(userId:number){
+    return this.users.find((user) => user.userId === userId);
   }
 
   addUser(user: User): void {

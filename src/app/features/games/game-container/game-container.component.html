@@ -1,2 +1,4 @@
+<div class="game-container">
 <app-start-options (startGame)="enableStartGame($event)" *ngIf="gameStarted===false"></app-start-options>
 <app-cricket *ngIf="gameStarted===true"></app-cricket>
+</div>

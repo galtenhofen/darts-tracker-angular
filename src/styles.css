@@ -116,6 +116,25 @@ p .mat-icon {
   bottom: 3%;
 }
 
+mat-sidenav-content{
+
+  background: rgb(63,81,181);
+  background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(98,113,195,1) 48%, rgba(63,81,181,1) 93%);
+
+  /* background: rgb(63,81,181);
+  background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(156,165,217,1) 48%, rgba(63,81,181,1) 93%); */
+
+  /* background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(63,81,181,1) 93%); */
+
+  /* background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(63,81,181,1) 93%); */
+  /* background: rgb(255,255,255);
+background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(152,161,215,1) 40%, rgba(63,81,181,1) 98%); */
+  /* background: rgb(63,81,181);
+  background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(152,161,215,1) 40%, rgba(255,255,255,1) 98%); */
+  } 
+
 /* Highlight on hover */
 .submitted-timesheet-day:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected),
 /* Highlight */

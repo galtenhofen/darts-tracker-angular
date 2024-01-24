@@ -25,8 +25,11 @@
         <div class="row-a">
           <mat-card class="card" id="cricket-card" routerLink="/games/cricket/options">
             <mat-card-content class="costflow-divider">
+              <button class="game-button" (click)="chooseGame('CRICKET')">
               <img src="..\..\..\assets\images\cricket.png">
+            </button>  
             </mat-card-content>
+          
           </mat-card>
       
           <mat-card class="card" id="blackout-card" routerLink="/blackout">

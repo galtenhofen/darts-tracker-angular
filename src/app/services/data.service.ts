@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CricketSettings, CricketSettingsImpl } from '../models/settings/cricket-settings.model';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  currentGame: string = '';
 currentCricketSettings: CricketSettings | undefined;
-defaultCricketSettings: CricketSettings = new CricketSettingsImpl('individual',2,[-1,-2],[],0,true,false);
+defaultCricketSettings: CricketSettings = new CricketSettingsImpl('individual',2,[996,997],[],0,true,false);
 
   constructor() { }
 
@@ -23,12 +25,20 @@ defaultCricketSettings: CricketSettings = new CricketSettingsImpl('individual',2
       return true; 
   }
 
-  public getCurrentCricketOptions(){
-    return this.currentCricketSettings;
+  public getCurrentCricketOptions():Observable<CricketSettings>{
+    return of(this.currentCricketSettings ?? this.defaultCricketSettings);
   }
 
   public getDefaultCricketOptions(){
     return this.defaultCricketSettings;
+  }
+
+  public setGame(gameName: string){
+    this.currentGame = gameName;
+  }
+
+  public getGame(){
+    return this.currentGame;
   }
   // public getPlayers(): Array<{playerId: any, teamId: any, firstName: any, lastName: any, email: any}> {
   //   return this.players;
