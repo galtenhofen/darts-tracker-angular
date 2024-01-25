@@ -1,14 +1,15 @@
 <div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches">
 
   <!-- Top navbar -->
-  <mat-toolbar class="navbar" color="primary">
+  <mat-toolbar class="navbar">
   
 
     <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
+      <mat-icon class="white-text">menu</mat-icon>
     </button>
 
-    <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home">
+    <!-- <a class="navbar-brand" [routerLink]="['/']" matTooltip="Home"> -->
+      <a class="navbar-brand" matTooltip="Home">
       <h1>
         Settings
       </h1>
@@ -17,7 +18,7 @@
     <div class="navbar-menu-container">
     <div class="left-menu-container">
       <div class="current-game">
-        <span>{{currentGame ? currentGame : 'Cricket'}}</span>
+        <span *ngIf="currentUrl==='/games/cricket'">Cricket</span>
       </div>
     <!-- <button class="menu-button" mat-icon-button [matMenuTriggerFor]="settingsMenu">
       Settings
@@ -75,11 +76,16 @@
 
     </mat-menu> -->
 
-
+    <a mat-menu-item [routerLink]="['/']">
+      <mat-icon class="white-text">exit_to_app</mat-icon>
+      <span class="white-text">
+        Exit
+      </span>
+    </a>
 
     <button mat-button [matMenuTriggerFor]="userMenu">
-      <mat-icon>person</mat-icon>
-      <span fxShow fxHide.xs>
+      <mat-icon class="white-text">person</mat-icon>
+      <span class="white-text" fxShow fxHide.xs>
         {{userName}}
       </span>
     </button>

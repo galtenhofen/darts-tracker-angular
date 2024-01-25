@@ -12,6 +12,14 @@
   color: white;
 }
 
+.mat-toolbar{
+  background-color: black;
+}
+
+.white-text{
+  color: white;
+}
+
 .navbar-container {
   display: flex;
   flex-direction: column;
@@ -37,6 +45,7 @@
   align-items: center;
 }
 .current-game{
+  color: white;
  font-family: 'Komika Display Kaps Wide', sans-serif;
   font-size: 50px;
   align-items: center;

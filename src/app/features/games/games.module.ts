@@ -9,6 +9,8 @@ import { GameContainerComponent } from './game-container/game-container.componen
 import { StartOptionsComponent } from 'src/app/shared/start-options/start-options.component';
 import { UserListComponent } from 'src/app/shared/users/user-list.component';
 import { TeamComponent } from 'src/app/shared/teams/team.component';
+import { CricketStatsComponent } from './cricket/cricket-stats/cricket-stats.component';
+import { CricketButtonsComponent } from './cricket/cricket-buttons/cricket-buttons.component';
 
 @NgModule({
     imports: [
@@ -20,7 +22,9 @@ import { TeamComponent } from 'src/app/shared/teams/team.component';
     ],
     declarations: [
         CricketComponent,
-        GameContainerComponent
+        GameContainerComponent,
+        CricketStatsComponent,
+        CricketButtonsComponent
     ]
 })
 export class GamesModule { }

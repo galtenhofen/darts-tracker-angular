@@ -3,13 +3,13 @@ import {CricketHit} from './cricket-hit';
 export class CricketRound {
   playerId: number;
   darts: CricketHit[];
-  bib: boolean;
+  bib: number;
   moreDarts: boolean;
 
   constructor(playerId: number) {
     this.playerId = playerId;
     this.darts = [];
-    this.bib = false;
+    this.bib = 0;
     this.moreDarts = true;
   }
 }

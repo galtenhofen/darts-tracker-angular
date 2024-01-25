@@ -18,7 +18,7 @@ import { CricketSettings } from 'src/app/models/settings/cricket-settings.model'
 })
 export class CricketComponent implements OnInit {
   cricketSettings!: CricketSettings;
-
+  multiplier: number = 1;
   playerOne: CricketPlayer = new CricketPlayer(998,'Player 1','');
   playerTwo: CricketPlayer = new CricketPlayer(999,'Player 2','');;
   playerThree!: CricketPlayer;
@@ -64,7 +64,6 @@ export class CricketComponent implements OnInit {
   sixteens = 0;
   fifteens = 0;
   bullseyes = 0;
-  multiplier = 1;
   showSingles = true;
   showDoubles = false;
   showTriples = false;
@@ -83,8 +82,8 @@ export class CricketComponent implements OnInit {
                     if (event.key === 'n' )  {this.onNextPlayer(); } else
                       if (event.key === '0' )  {this.onMiss(); } else
                         if (event.key === 's' )  {this.showSingle(); } else
-                          if (event.key === 'd' )  {this.toggleDouble(); } else
-                            if (event.key === 't' )  {this.toggleTriple(); } else
+                          // if (event.key === 'd' )  {this.toggleDouble(); } else
+                          //   if (event.key === 't' )  {this.toggleTriple(); } else
                               // if (event.key === 'u' )  {this.undoThrow(); } else
                                 if (event.key === 'i' )  {this.undoTurn(); }
   }
@@ -201,7 +200,7 @@ console.table(this.playerList);
   onPreviousPlayer() {
     this.undoTurn();
     if (this.playerIterator < (this.playerList.length - 1)) {
-      this.playerIterator++;
+      this.playerIterator--;
       this.currentPlayer = this.playerList[this.playerIterator];
     }  else {
       this.playerIterator = 0;
@@ -214,6 +213,7 @@ console.table(this.playerList);
     console.log('this.currentPlayer',this.currentPlayer);
     this.currentRound = new CricketRound(this.currentPlayer.playerId);
     console.log('currentRound: ', this.currentRound);
+    console.log();
   }
   
   startNewTeamRound() {
@@ -458,6 +458,30 @@ console.table(this.playerList);
       this.secondPlayerGame.bullseyeClosed = true;
     }
   }
+
+  hit(num : number){
+    switch (num) {
+      case 20: this.onHit20(this.multiplier);
+      break;
+      case 19: this.onHit19(this.multiplier);
+      break;
+      case 18: this.onHit18(this.multiplier);
+      break;
+      case 17: this.onHit17(this.multiplier);
+      break;
+      case 16: this.onHit16(this.multiplier);
+      break;
+      case 15: this.onHit15(this.multiplier);
+      break;
+      case 25: this.onHitBullseye(this.multiplier);
+      break;
+    }
+  }
+
+  updateMultiplier(num : number){
+    console.log('user change multiplier to ' + num);
+    this.multiplier = num;
+      }
 
   onHit20(multiplier: number) {
     console.log('hit 20');
@@ -918,6 +942,7 @@ console.table(this.playerList);
   }*/
 
   processThrow() {
+    console.log('processThrow   currentRound: ', this.currentRound)
     this.throwNum++;
     if (this.throwNum < 4 ) {
     }  else {
@@ -934,11 +959,12 @@ console.table(this.playerList);
       }).then((result) => {
         if (result.value) {
           this.checkForClosed();
-          if (this.currentRound.darts.filter(d => d.target > 0 ).length === 3 ) {
-            this.currentRound.bib = true;
-            Swal.fire('Bring it Back Motherfucker');
+          if (this.currentRound.darts.filter(d => d.target > 0 ).length === ((this.currentRound.bib+1)*3) ) {
+            this.currentRound.bib++;
+            Swal.fire('That\'s a BiB. Still '+this.currentPlayer.firstName+'\'s turn.');
             this.moreDarts = true;
             this.throwNum = 1;
+            this.currentPlayer.bibs++;
           } else {
             this.onNextPlayer();
           }

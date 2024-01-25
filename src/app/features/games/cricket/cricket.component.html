@@ -18,12 +18,12 @@
         </div>
     </div>
     <div class="cricket-left-bottom-btns">
-      <button class="next-player-btn" (click)="onPreviousPlayer()" mat-raised-button color="basic">Previous Player</button>
-      <button class="undo-btn" mat-raised-button color="warn">Undo</button>
-      <button class="prev-player-btn" (click)="onSkipPlayer()"  mat-raised-button color="basic">Next Player</button>
+      <!-- <button class="next-player-btn" (click)="onPreviousPlayer()" mat-raised-button color="basic">Previous Player</button> -->
+      <button class="action-btn" (click)="undoTurn()" mat-raised-button color="warn">Undo</button>
+      <button class="action-btn" (click)="onSkipPlayer()"  mat-raised-button color="basic">Next Player</button>
     </div>
     <div class="cricket-left-bottom-throws">
-
+      <app-cricket-buttons (buttonHit)="hit($event)" (multiplier)="updateMultiplier($event)"></app-cricket-buttons>
 
     </div>
 
@@ -42,7 +42,7 @@
         </div>
 
         <div class="cricket-right-header">
-            <div class="left-team-div left-20">
+            <div class="left-team-div scorebox">
               <div class="chalk-text-score" [hidden]="firstPlayerGame.twenties!=0"></div>
               <div class="chalk-text-score" [hidden]="firstPlayerGame.twenties!=1">/</div>
               <div class="chalk-text-score" [hidden]="firstPlayerGame.twenties!=2">X</div> 
@@ -52,7 +52,7 @@
             <div class="middle-round-div">
               <h2 class="chalk-text">20</h2>
             </div>
-            <div class="right-team-div right-20">
+            <div class="right-team-div scorebox">
               <div class="chalk-text-score" [hidden]="secondPlayerGame.twenties!=0"></div>
               <div class="chalk-text-score" [hidden]="secondPlayerGame.twenties!=1">/</div>
               <div class="chalk-text-score" [hidden]="secondPlayerGame.twenties!=2">X</div> 
@@ -62,7 +62,7 @@
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div left-20">
+            <div class="left-team-div scorebox">
               <div class="chalk-text-score" [hidden]="firstPlayerGame.nineteens!=0"></div>
               <div class="chalk-text-score" [hidden]="firstPlayerGame.nineteens!=1">/</div>
               <div class="chalk-text-score" [hidden]="firstPlayerGame.nineteens!=2">X</div> 
@@ -72,7 +72,7 @@
             <div class="middle-round-div">
               <h2 class="chalk-text">19</h2>
             </div>
-            <div class="right-team-div right-20">
+            <div class="right-team-div scorebox">
               <div class="chalk-text-score" [hidden]="secondPlayerGame.nineteens!=0"></div>
               <div class="chalk-text-score" [hidden]="secondPlayerGame.nineteens!=1">/</div>
               <div class="chalk-text-score" [hidden]="secondPlayerGame.nineteens!=2">X</div> 
@@ -82,62 +82,102 @@
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="left-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.eighteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.eighteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.eighteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="firstPlayerGame.eighteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="firstPlayerGame.eighteens<3">O</div>
             </div>
             <div class="middle-round-div">
               <h2 class="chalk-text">18</h2>
             </div>
-            <div class="right-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="right-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.eighteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.eighteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.eighteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="secondPlayerGame.eighteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="secondPlayerGame.eighteens<3">O</div>
             </div>
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="left-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.seventeens!=0"></div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.seventeens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.seventeens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="firstPlayerGame.seventeens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="firstPlayerGame.seventeens<3">O</div>
             </div>
             <div class="middle-round-div">
               <h2 class="chalk-text">17</h2>
             </div>
-            <div class="right-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="right-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.seventeens!=0"></div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.seventeens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.seventeens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="secondPlayerGame.seventeens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="secondPlayerGame.seventeens<3">O</div>
             </div>
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="left-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.sixteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.sixteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.sixteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="firstPlayerGame.sixteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="firstPlayerGame.sixteens<3">O</div>
             </div>
             <div class="middle-round-div">
               <h2 class="chalk-text">16</h2>
             </div>
-            <div class="right-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="right-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.sixteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.sixteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.sixteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="secondPlayerGame.sixteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="secondPlayerGame.sixteens<3">O</div>
             </div>
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="left-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.fifteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.fifteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.fifteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="firstPlayerGame.fifteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="firstPlayerGame.fifteens<3">O</div>
             </div>
             <div class="middle-round-div">
               <h2 class="chalk-text">15</h2>
             </div>
-            <div class="right-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="right-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.fifteens!=0"></div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.fifteens!=1">/</div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.fifteens!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="secondPlayerGame.fifteens<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="secondPlayerGame.fifteens<3">O</div>
             </div>
           </div>
 
           <div class="cricket-right-header">
-            <div class="left-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="left-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.bullseyes"></div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.bullseyes!=1">/</div>
+              <div class="chalk-text-score" [hidden]="firstPlayerGame.bullseyes!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="firstPlayerGame.bullseyes<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="firstPlayerGame.bullseyes<3">O</div>
             </div>
             <div class="middle-round-div">
               <h2 class="chalk-text">Bull</h2>
             </div>
-            <div class="right-team-div">
-              <h2 class="chalk-text"></h2>
+            <div class="right-team-div scorebox">
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.bullseyes!=0"></div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.bullseyes!=1">/</div>
+              <div class="chalk-text-score" [hidden]="secondPlayerGame.bullseyes!=2">X</div> 
+              <div class="chalk-text-score-x" [hidden]="secondPlayerGame.bullseyes<3">X</div>
+              <div class="chalk-text-score-bull" [hidden]="secondPlayerGame.bullseyes<3">O</div>
             </div>
           </div>
 
@@ -146,6 +186,7 @@
 <link href="https://fonts.cdnfonts.com/css/kg-broken-vessels-sketch" rel="stylesheet">
 <link href="https://fonts.cdnfonts.com/css/callie-chalk-font" rel="stylesheet">                
 <link href="https://fonts.cdnfonts.com/css/crayon-libre" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/sf-action-man" rel="stylesheet">
                 
                 
                 

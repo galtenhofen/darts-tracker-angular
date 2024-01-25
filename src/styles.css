@@ -117,9 +117,11 @@ p .mat-icon {
 }
 
 mat-sidenav-content{
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgb(0 0 0) 0%, rgba(98,113,195,1) 50%, rgb(238 239 247) 100%);
 
-  background: rgb(63,81,181);
-  background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(98,113,195,1) 48%, rgba(63,81,181,1) 93%);
+  /* background: rgb(63,81,181);
+  background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(98,113,195,1) 48%, rgba(63,81,181,1) 93%); */
 
   /* background: rgb(63,81,181);
   background: linear-gradient(180deg, rgba(63,81,181,1) 0%, rgba(156,165,217,1) 48%, rgba(63,81,181,1) 93%); */

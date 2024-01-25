@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy, AfterViewInit, Input, 
 import { MediaMatcher } from '@angular/cdk/layout';
 import { timer } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { Router, NavigationEnd, NavigationExtras, Data } from '@angular/router';
+import { Router,NavigationStart ,NavigationEnd, NavigationExtras, ActivatedRoute  } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { SpinnerService } from '../../core/services/spinner.service';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
@@ -22,6 +22,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     userName: string = "";
     isAdmin: boolean = false;
     currentGame: string = "Darts";
+    currentUrl: string = "";
 
     private autoLogoutSubscription: Subscription = new Subscription;
 
@@ -31,7 +32,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         private authService: AuthenticationService,
         private authGuard: AuthGuard,
         private route: Router,
+        private activatedRoute: ActivatedRoute,
         private dataService: DataService) {
+
+       this.currentUrl = route.url;
 
         this.mobileQuery = this.media.matchMedia('(max-width: 10000px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -40,6 +44,15 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
+
+        this.route.events.subscribe(Event => {
+            if (Event instanceof NavigationStart) {
+                console.log('Event: ', Event.url);
+                this.currentUrl = Event.url;
+            }
+            
+       });
+
         this.currentGame = this.dataService.getGame();
         console.log('this.mobileQuery.matches', this.mobileQuery.matches);
         const user = this.authService.getCurrentUser();
@@ -77,14 +90,15 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reloadRoute() {
         this.snav.close();
-        const currentUrl = this.route.url; // Get the current URL
+        this.currentUrl = this.route.url; // Get the current URL
+        console.log('this.currentUrl', this.currentUrl);
         const navigationExtras: NavigationExtras = {
           queryParams: { timestamp: new Date().getTime() }, // Add a query parameter with a unique value to force the reload
           skipLocationChange: true // Skip the location change in the browser history
         };
         this.route.navigateByUrl('/', navigationExtras)
           .then(() => {
-            this.route.navigateByUrl(currentUrl); // Navigate back to the current URL
+            this.route.navigateByUrl(this.currentUrl); // Navigate back to the current URL
           });
       }
     }

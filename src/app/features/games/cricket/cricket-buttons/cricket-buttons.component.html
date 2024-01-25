@@ -1,0 +1,22 @@
+<div class="buttonHolder">
+    <div class="row">
+        <a *ngIf="currentMultiplier===2" (click)="toggleMultiplier(2)" class="button double-active"></a>
+        <a *ngIf="currentMultiplier!=2" (click)="toggleMultiplier(2)" class="button double"></a>
+        <a *ngIf="currentMultiplier!=3"(click)="toggleMultiplier(3)" class="button triple"></a>     
+        <a *ngIf="currentMultiplier===3" (click)="toggleMultiplier(3)" class="button triple-active"></a>   
+    </div>
+
+    <div class="row">
+    <a (click)="hit(20)" class="button twenty" [ngClass]="checkMultipler()"></a>
+    <a (click)="hit(19)" class="button nineteen" [ngClass]="checkMultipler()"></a>
+    <a (click)="hit(18)" class="button eighteen" [ngClass]="checkMultipler()"></a>
+    <a (click)="hit(17)" class="button seventeen" [ngClass]="checkMultipler()"></a>
+    </div>  
+    <div class="row">
+    <a (click)="hit(16)" class="button sixteen" [ngClass]="checkMultipler()"></a>
+    <a (click)="hit(15)" class="button fifteen" [ngClass]="checkMultipler()"></a>
+    <a (click)="hit(25)" class="button bullseye" [ngClass]="checkMultipler()"></a>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

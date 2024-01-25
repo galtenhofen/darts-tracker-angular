@@ -5,13 +5,15 @@
   }
 
 .step-container{
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
 .step-card{
   margin: 70px auto auto auto;
-  width: 70%;
+  width:25%;
 }
 
 .next-button{
