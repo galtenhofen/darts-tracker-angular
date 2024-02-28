@@ -172,31 +172,35 @@ this.gameType = 'team';
     this.playerTwo = new CricketPlayer(999,'Player2', '', 2);
     this.firstPlayerGame = new CricketGame(this.playerOne);
     this.secondPlayerGame = new CricketGame(this.playerTwo);
+    this.inOrder = true
+    this.userOne = {userId: 996, firstName: 'Player 1', lastName: '', email: ''};
+    this.userTwo = {userId: 997, firstName: 'Player 2', lastName: '', email: ''};
+    this.enableStartGame('individual');
 
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-warning'
-      },
-      buttonsStyling: false
-    });
-    swalWithBootstrapButtons.fire({
-      title: 'Select Game Type',
-      text: 'Must go in order?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: ' Slop counts ',
-      cancelButtonText: ' Go in order ',
-      reverseButtons: false
-    }).then((result) => {
-      if (result.value) {
-        this.inOrder = true;
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        this.inOrder = false;
-      }
-    });
+    // const swalWithBootstrapButtons = Swal.mixin({
+    //   customClass: {
+    //     confirmButton: 'btn btn-success',
+    //     cancelButton: 'btn btn-warning'
+    //   },
+    //   buttonsStyling: false
+    // });
+    // swalWithBootstrapButtons.fire({
+    //   title: 'Select Game Type',
+    //   text: 'Must go in order?',
+    //   icon: 'question',
+    //   showCancelButton: true,
+    //   confirmButtonText: ' Slop counts ',
+    //   cancelButtonText: ' Go in order ',
+    //   reverseButtons: false
+    // }).then((result) => {
+    //   if (result.value) {
+    //     this.inOrder = true;
+    //   } else if (
+    //     result.dismiss === Swal.DismissReason.cancel
+    //   ) {
+    //     this.inOrder = false;
+    //   }
+    // });
   }
 
   // openCreateTeamDialog(): void {

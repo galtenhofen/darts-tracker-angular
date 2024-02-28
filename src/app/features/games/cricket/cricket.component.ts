@@ -45,47 +45,52 @@ export class CricketComponent implements OnInit {
   playerIterator = 0;
   playerIdIterator = 0;
   roundNumber = 1;
-  throwNum = 1;
-  dartOne: any;
-  dartTwo: any;
-  dartThree: any;
   moreDarts = true;
- twentyClosed = false;
-  nineteenClosed = false;
-  eighteenClosed = false;
-  seventeenClosed = false;
-  sixteenClosed = false;
-  fifteenClosed = false;
-  bullseyeClosed = false;
-  twenties = 0;
-  nineteens = 0;
-  eighteens = 0;
-  seventeens = 0;
-  sixteens = 0;
-  fifteens = 0;
-  bullseyes = 0;
   showSingles = true;
   showDoubles = false;
   showTriples = false;
 
+
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if (event.key === '1') {
-      this.onHit20(this.multiplier); } else
-      if (event.key === '2' )  {this.onHit19(this.multiplier); } else
-        if (event.key === '3' )  {this.onHit18(this.multiplier); } else
-          if (event.key === '4' )  {this.onHit17(this.multiplier); } else
-            if (event.key === '5' )  {this.onHit16(this.multiplier); } else
-              if (event.key === '6' )  {this.onHit15(this.multiplier); } else
-                if (event.key === '7' )  {this.onHitBullseye(this.multiplier); } else
-                //  if (event.key === 'p' )  {this.onPrevPlayer(); } else
-                    if (event.key === 'n' )  {this.onNextPlayer(); } else
-                      if (event.key === '0' )  {this.onMiss(); } else
-                        if (event.key === 's' )  {this.showSingle(); } else
-                          // if (event.key === 'd' )  {this.toggleDouble(); } else
-                          //   if (event.key === 't' )  {this.toggleTriple(); } else
-                              // if (event.key === 'u' )  {this.undoThrow(); } else
-                                if (event.key === 'i' )  {this.undoTurn(); }
+    switch (event.key) {
+      case '1':
+        this.hitSection(20, 'twenty' , this.multiplier);
+        break;
+      case '2':
+        this.hitSection(19,'nineteen', this.multiplier);
+        break;
+      case '3':
+        this.hitSection(18,'eighteen', this.multiplier);
+        break;
+      case '4':
+        this.hitSection(17, 'seventeen',this.multiplier);
+        break;
+      case '5':
+        this.hitSection(16,'sixteen', this.multiplier);
+        break;
+      case '6':
+        this.hitSection(15, 'fifteen',this.multiplier);
+        break;
+      case '7':
+        this.hitSection(25,'bullseye', this.multiplier); // Bullseye
+        break;
+      case 'n':
+        this.onNextPlayer();
+        break;
+      case '0':
+        this.onMiss();
+        break;
+      case 's':
+        this.showSingle();
+        break;
+      case 'i':
+        this.undoTurn();
+        break;
+      default:
+        // Handle other keys if needed
+        break;
+    }
   }
 
   constructor(public dataService: DataService, public userService: UserService) { }
@@ -182,8 +187,17 @@ console.table(this.playerList);
       this.secondPlayerGame.rounds.push(this.currentRound);
     }
     this.moreDarts = true;
-    this.throwNum = 1;
+    //this.throwNum = 1;
     this.startNewRound();
+  }
+
+  finishRound(){
+    console.log('filling in ' + this.currentRound.dartsLeft + ' misses');
+    if (this.currentRound.dartsLeft > 0){
+      for (let i = 0; i <= this.currentRound.dartsLeft+1; i++) {
+        this.onMiss();
+      }
+    }
   }
 
   onSkipPlayer() {
@@ -210,10 +224,10 @@ console.table(this.playerList);
 
   startNewRound() {
     console.log('***Enter startNewRound');
-    console.log('this.currentPlayer',this.currentPlayer);
     this.currentRound = new CricketRound(this.currentPlayer.playerId);
-    console.log('currentRound: ', this.currentRound);
-    console.log();
+    const playerGame = this.currentRound.playerId === this.firstPlayerGame.player.playerId ?
+      this.firstPlayerGame : this.secondPlayerGame;
+    console.log('currentTarget: ', playerGame.currentTarget);
   }
   
   startNewTeamRound() {
@@ -297,6 +311,7 @@ console.table(this.playerList);
    // }
 }*/
 
+/*
   undoThrow(player: number, num: number, mult: number) {
     console.log('undoThrow: ', player, num, mult);
     if (player === this.firstPlayerGame.player.playerId) {
@@ -362,118 +377,127 @@ console.table(this.playerList);
         }
       }
   }
+  */
 
+    undoSingleThrow(){
+      this.currentRound.darts.pop();
+     // this.throwNum--;
+    }
+
+    undoThrow(player: number, num: number, mult: number) {
+    console.log('undoThrow: ', player, num, mult);
+    const gameData = player === this.firstPlayerGame.player.playerId ? this.firstPlayerGame : this.secondPlayerGame;
+  
+    switch (num) {
+      case 20:
+        gameData.twentyHits -= mult;
+        break;
+      case 19:
+        gameData.nineteenHits -= mult;
+        break;
+      case 18:
+        gameData.eighteenHits -= mult;
+        break;
+      case 17:
+        gameData.seventeenHits -= mult;
+        break;
+      case 16:
+        gameData.sixteenHits -= mult;
+        break;
+      case 15:
+        gameData.fifteenHits -= mult;
+        break;
+      case 25:
+        gameData.bullseyeHits -= mult;
+        break;
+      default:
+        // Handle other cases if needed
+        break;
+    }
+  }
+
+  
   undoTurn() {
+    console.log('undo turn: this.currentRound: ',this.currentRound);
     const self = this;
-    console.log('undoTurn  this.currentRound: ', this.currentRound.darts);
     this.currentRound.darts.forEach(function(item) {
       console.log('throw: ', item.target);
       if (item.target > 0) {
         self.undoThrow(self.currentRound.playerId, item.target, item.multiplier);
       }
       });
+      this.currentRound = new CricketRound(this.currentPlayer.playerId);
+      //this.throwNum = 1;
+      console.log(this.firstPlayerGame);
+     
   }
 
-/* onHit(number, multiplier) {
-    if (this.currentRound.teamId === this.awayTeamGame.team.teamId) {
-      if (this.throwNum <= 3) {
-        switch (number) {
-          case 20:
-            console.log('You hit the 20 (times ' + number + ')');
-          for
-            (let
-            i = 0;
-            i < multiplier;
-            i++
-          )
-          {
-            this.awayTeamGame.twenties++;
-          }
-            if (this.awayTeamGame.twenties > 2) {
-              console.log('You closed the twenties');
-            }
-            break;
-        }
-        this.processThrow();
 
-      }
-    }
-    else if (this.currentRound.teamId === this.homeTeamGame.team.teamId) {
-      if (this.throwNum <= 3 && this.homeTeamGame.twentyClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.homeTeamGame.twenties++;
 
-          this.addScore(20);
-        }
-        if (this.homeTeamGame.twenties > 2) {
-          console.log('You closed the twenties');
-        }
-      }
-      this.processThrow();
-      console.log('onHit20 twenties: ', this.homeTeamGame.twenties);
-    }
-  } */
 
-  checkForClosed() {
-    if (this.firstPlayerGame.twenties > 2) {
-      this.firstPlayerGame.twentyClosed = true;
-    }
-    if (this.firstPlayerGame.nineteens > 2) {
-      this.firstPlayerGame.nineteenClosed = true;
-    }
-    if (this.firstPlayerGame.eighteens > 2) {
-      this.firstPlayerGame.eighteenClosed = true;
-    }
-    if (this.firstPlayerGame.seventeens > 2) {
-      this.firstPlayerGame.seventeenClosed = true;
-    }
-    if (this.firstPlayerGame.sixteens > 2) {
-      this.firstPlayerGame.sixteenClosed = true;
-    }
-    if (this.firstPlayerGame.fifteens > 2) {
-      this.firstPlayerGame.fifteenClosed = true;
-    }
-    if (this.firstPlayerGame.bullseyes > 2) {
-      this.firstPlayerGame.bullseyeClosed = true;
-    }
-    if (this.secondPlayerGame.twenties > 2) {
-      this.secondPlayerGame.twentyClosed = true;
-    }
-    if (this.secondPlayerGame.nineteens > 2) {
-      this.secondPlayerGame.nineteenClosed = true;
-    }
-    if (this.secondPlayerGame.eighteens > 2) {
-      this.secondPlayerGame.eighteenClosed = true;
-    }
-    if (this.secondPlayerGame.seventeens > 2) {
-      this.secondPlayerGame.seventeenClosed = true;
-    }
-    if (this.secondPlayerGame.sixteens > 2) {
-      this.secondPlayerGame.sixteenClosed = true;
-    }
-    if (this.secondPlayerGame.fifteens > 2) {
-      this.secondPlayerGame.fifteenClosed = true;
-    }
-    if (this.secondPlayerGame.bullseyes > 2) {
-      this.secondPlayerGame.bullseyeClosed = true;
-    }
-  }
+
+  // checkForClosed() {
+  //   const sectionsToCheck = [20, 19, 18, 17, 16, 15, 25];
+  
+  //   for (const section of sectionsToCheck) {
+  //     switch (section) {
+  //       case 20:
+  //         this.updateClosedStatus('twenty');
+  //         break;
+  //       case 19:
+  //         this.updateClosedStatus('nineteen');
+  //         break;
+  //       case 18:
+  //         this.updateClosedStatus('eighteen');
+  //         break;
+  //       case 17:
+  //         this.updateClosedStatus('seventeen');
+  //         break;
+  //       case 16:
+  //         this.updateClosedStatus('sixteen');
+  //         break;
+  //       case 15:
+  //         this.updateClosedStatus('fifteen');
+  //         break;
+  //       case 25:
+  //         this.updateClosedStatus('bullseye');
+  //         break;
+  //     }
+  //   }
+  // }
+
+  // updateClosedStatus(prefix: string): void {
+  //   const playerGame = this.currentRound.playerId === this.firstPlayerGame.player.playerId ?
+  //   this.firstPlayerGame : this.secondPlayerGame;
+  //   const hitsPropertyName = `${prefix}Hits`;
+  //   const closedPropertyName = `${prefix}Closed`;
+  //   const hits = playerGame[hitsPropertyName];
+  // if (typeof playerGame[hitsPropertyName] === 'number') {
+  //   const hits = playerGame[hitsPropertyName] as number;
+  //   if (hits > 2) {
+  //     playerGame[closedPropertyName] = true;
+  //   }
+  // }
+  // }
+
 
   hit(num : number){
     switch (num) {
-      case 20: this.onHit20(this.multiplier);
+      case 20: 
+      this.hitSection(20, 'twenty' ,this.multiplier);
+      //this.onHit20(this.multiplier);
       break;
-      case 19: this.onHit19(this.multiplier);
+      case 19: this.hitSection(19, 'nineteen', this.multiplier);
       break;
-      case 18: this.onHit18(this.multiplier);
+      case 18: this.hitSection(18, 'eighteen', this.multiplier);
       break;
-      case 17: this.onHit17(this.multiplier);
+      case 17: this.hitSection(17, 'seventeen', this.multiplier);
       break;
-      case 16: this.onHit16(this.multiplier);
+      case 16: this.hitSection(16, 'sixteen', this.multiplier);
       break;
-      case 15: this.onHit15(this.multiplier);
+      case 15: this.hitSection(15, 'fifteen', this.multiplier);
       break;
-      case 25: this.onHitBullseye(this.multiplier);
+      case 25: this.hitSection(25, 'bullseye', this.multiplier);
       break;
     }
   }
@@ -483,232 +507,258 @@ console.table(this.playerList);
     this.multiplier = num;
       }
 
-  onHit20(multiplier: number) {
-    console.log('hit 20');
-    const hit = new CricketHit(20, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.currentRound.darts.length < 3 && this.firstPlayerGame.twentyClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.twenties++;
-        }
-        this.currentRound.darts.push(hit);
-        /*if (this.firstPlayerGame.twenties > 2) {
-          this.firstPlayerGame.twentyClosed = true;
-        }*/
-      }
-      this.processThrow();
+  // onHit20(multiplier: number) {
+  //   console.log('hit 20');
+  //   const hit = new CricketHit(20, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.currentRound.darts.length < 3 && this.firstPlayerGame.twentyClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.twenties++;
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //       /*if (this.firstPlayerGame.twenties > 2) {
+  //         this.firstPlayerGame.twentyClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
 
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.currentRound.darts.length <= 3 && this.secondPlayerGame.twentyClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.twenties++;
-        }
-        this.currentRound.darts.push(hit);
-       /* if (this.secondPlayerGame.twenties > 2) {
-          this.secondPlayerGame.twentyClosed = true;
-        }*/
-      }
-      this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.currentRound.darts.length <= 3 && this.secondPlayerGame.twentyClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.twenties++;
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //      /* if (this.secondPlayerGame.twenties > 2) {
+  //         this.secondPlayerGame.twentyClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
 
+  //   }
+  // }
+  // onHit19(multiplier: number) {
+  //   console.log('hit 19');
+  //   const hit = new CricketHit(19, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.nineteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.nineteens++;
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //    /*   if (this.firstPlayerGame.nineteens > 2) {
+  //         this.firstPlayerGame.nineteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.nineteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.nineteens++;
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //     /*  if (this.secondPlayerGame.nineteens > 2) {
+  //         this.secondPlayerGame.nineteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   }
+  // }
+
+  // onHit18(multiplier: number) {
+  //   console.log('hit 18');
+  //   const hit = new CricketHit(18, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.eighteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.eighteens++;
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //      /* if (this.firstPlayerGame.eighteens > 2) {
+  //         this.firstPlayerGame.eighteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.eighteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.eighteens++;
+
+  //   //      this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //    /*   if (this.secondPlayerGame.eighteens > 2) {
+  //         this.secondPlayerGame.eighteenClosed = true;
+  //       }*/
+  //    }
+  //     this.processThrow();
+  //   }
+  // }
+
+  // onHit17(multiplier: number) {
+  //   console.log('hit 17');
+  //   const hit = new CricketHit(17, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.seventeenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.seventeens++;
+
+  //        // this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //     /*  if (this.firstPlayerGame.seventeens > 2) {
+  //         this.firstPlayerGame.seventeenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.seventeenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.seventeens++;
+
+  //      //   this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //      /* if (this.secondPlayerGame.seventeens > 2) {
+  //         this.secondPlayerGame.seventeenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   }
+  // }
+  // onHit16(multiplier: number) {
+  //   console.log('hit 16');
+  //   const hit = new CricketHit(16, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.sixteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.sixteens++;
+
+  //     //    this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //     /*  if (this.firstPlayerGame.sixteens > 2) {
+  //         this.firstPlayerGame.sixteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.sixteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.sixteens++;
+
+  //     //    this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //       /*if (this.secondPlayerGame.sixteens > 2) {
+  //         this.secondPlayerGame.sixteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   }
+  // }
+  // onHit15(multiplier: number) {
+  //   console.log('hit 15');
+  //   const hit = new CricketHit(15, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.fifteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.fifteens++;
+
+  //         //  this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //      /* if (this.firstPlayerGame.fifteens > 2) {
+  //         this.firstPlayerGame.fifteenClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.fifteenClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.fifteens++;
+
+  //         //  this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //       /*if (this.secondPlayerGame.fifteens > 2) {
+  //         this.secondPlayerGame.fifteenClosed = true;
+  //       }*/
+  //       this.processThrow();
+  //     }
+  //   }
+  // }
+  // onHitBullseye(multiplier: number) {
+  //   console.log('hit bull');
+  //   const hit = new CricketHit(25, multiplier);
+  //   if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.firstPlayerGame.bullseyeClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.firstPlayerGame.bullseyes++;
+
+  //     //    this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //     /*  if (this.firstPlayerGame.bullseyes > 2) {
+  //         this.firstPlayerGame.bullseyeClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
+  //     if (this.throwNum <= 3 && this.secondPlayerGame.bullseyeClosed === false) {
+  //       for (let i = 0; i < multiplier; i++) {
+  //         this.secondPlayerGame.bullseyes++;
+
+  //     //    this.addScore(20);
+  //       }
+  //       this.currentRound.darts.push(hit);
+  //      /* if (this.secondPlayerGame.bullseyes > 2) {
+  //         this.secondPlayerGame.bullseyeClosed = true;
+  //       }*/
+  //     }
+  //     this.processThrow();
+  //   }
+  // }
+
+  hitSection(section: number, property: string ,multiplier: number) {
+    //this.checkForClosed();
+    console.log(`hit ${section}`);
+    const hit = new CricketHit(section, multiplier);
+    const playerGame = this.currentRound.playerId === this.firstPlayerGame.player.playerId ?
+      this.firstPlayerGame : this.secondPlayerGame;
+    const target = playerGame.currentTarget;
+    const closedProp = `${property}Closed`;
+  console.log('section',section);
+    if (section === target && this.currentRound.dartsLeft > 0 && !playerGame[closedProp]) {
+      const sectionProp = `${property}Hits`;
+      console.log('sectionProp',sectionProp);
+        for (let i = 0; i < multiplier; i++) {
+          playerGame[sectionProp] = (playerGame[sectionProp] as number) + 1;
+        }
+      this.currentRound.darts.push(hit);
+    } else{
+      this.onMiss();
     }
+  
+console.log('hitSection   firstPlayerGame: ', this.firstPlayerGame);
+console.log('hitSection   secondPlayerGame: ', this.secondPlayerGame);
+
+    this.processThrow();
   }
-  onHit19(multiplier: number) {
-    console.log('hit 19');
-    const hit = new CricketHit(19, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.nineteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.nineteens++;
-        }
-        this.currentRound.darts.push(hit);
-     /*   if (this.firstPlayerGame.nineteens > 2) {
-          this.firstPlayerGame.nineteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.nineteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.nineteens++;
-        }
-        this.currentRound.darts.push(hit);
-      /*  if (this.secondPlayerGame.nineteens > 2) {
-          this.secondPlayerGame.nineteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    }
-  }
+  
 
-  onHit18(multiplier: number) {
-    console.log('hit 18');
-    const hit = new CricketHit(18, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.eighteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.eighteens++;
-        }
-        this.currentRound.darts.push(hit);
-       /* if (this.firstPlayerGame.eighteens > 2) {
-          this.firstPlayerGame.eighteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.eighteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.eighteens++;
-
-    //      this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-     /*   if (this.secondPlayerGame.eighteens > 2) {
-          this.secondPlayerGame.eighteenClosed = true;
-        }*/
-     }
-      this.processThrow();
-    }
-  }
-
-  onHit17(multiplier: number) {
-    console.log('hit 17');
-    const hit = new CricketHit(17, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.seventeenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.seventeens++;
-
-         // this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-      /*  if (this.firstPlayerGame.seventeens > 2) {
-          this.firstPlayerGame.seventeenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.seventeenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.seventeens++;
-
-       //   this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-       /* if (this.secondPlayerGame.seventeens > 2) {
-          this.secondPlayerGame.seventeenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    }
-  }
-  onHit16(multiplier: number) {
-    console.log('hit 16');
-    const hit = new CricketHit(16, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.sixteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.sixteens++;
-
-      //    this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-      /*  if (this.firstPlayerGame.sixteens > 2) {
-          this.firstPlayerGame.sixteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.sixteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.sixteens++;
-
-      //    this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-        /*if (this.secondPlayerGame.sixteens > 2) {
-          this.secondPlayerGame.sixteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    }
-  }
-  onHit15(multiplier: number) {
-    console.log('hit 15');
-    const hit = new CricketHit(15, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.fifteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.fifteens++;
-
-          //  this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-       /* if (this.firstPlayerGame.fifteens > 2) {
-          this.firstPlayerGame.fifteenClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.fifteenClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.fifteens++;
-
-          //  this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-        /*if (this.secondPlayerGame.fifteens > 2) {
-          this.secondPlayerGame.fifteenClosed = true;
-        }*/
-        this.processThrow();
-      }
-    }
-  }
-  onHitBullseye(multiplier: number) {
-    console.log('hit bull');
-    const hit = new CricketHit(25, multiplier);
-    if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.firstPlayerGame.bullseyeClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.firstPlayerGame.bullseyes++;
-
-      //    this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-      /*  if (this.firstPlayerGame.bullseyes > 2) {
-          this.firstPlayerGame.bullseyeClosed = true;
-        }*/
-      }
-      this.processThrow();
-    } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.throwNum <= 3 && this.secondPlayerGame.bullseyeClosed === false) {
-        for (let i = 0; i < multiplier; i++) {
-          this.secondPlayerGame.bullseyes++;
-
-      //    this.addScore(20);
-        }
-        this.currentRound.darts.push(hit);
-       /* if (this.secondPlayerGame.bullseyes > 2) {
-          this.secondPlayerGame.bullseyeClosed = true;
-        }*/
-      }
-      this.processThrow();
-    }
-  }
   onMiss()  {
     console.log('ain\'t hit shit');
     const hit = new CricketHit(0, 0);
     if (this.currentRound.playerId === this.firstPlayerGame.player.playerId) {
-      if (this.currentRound.darts.length < 3) {
+      if (this.currentRound.dartsLeft > 0) {
         this.currentRound.darts.push(hit);
       }
       this.processThrow();
-      console.log('You suck.');
     } else if (this.currentRound.playerId === this.secondPlayerGame.player.playerId) {
-      if (this.currentRound.darts.length < 3) {
+      if (this.currentRound.dartsLeft > 0) {
         this.currentRound.darts.push(hit);
       }
       this.processThrow();
-      console.log('You suck.');
     }
 
     console.log('onMiss currentRound: ', this.currentRound);
@@ -942,10 +992,40 @@ console.table(this.playerList);
   }*/
 
   processThrow() {
-    console.log('processThrow   currentRound: ', this.currentRound)
-    this.throwNum++;
-    if (this.throwNum < 4 ) {
-    }  else {
+    const BiB = this.currentRound.darts.filter(d => d.target > 0 ).length === ((this.currentRound.bib+1)*3); 
+    const playerGame = this.currentRound.playerId === this.firstPlayerGame.player.playerId ?
+          this.firstPlayerGame : this.secondPlayerGame;
+    if(!playerGame.bullseyeClosed){
+    if (this.currentRound.dartsLeft > 0) {
+    }  
+    else if(BiB){
+      Swal.fire({
+        title: 'Bring it Back',
+        text: 'Still '+this.currentPlayer.firstName+'\'s turn.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Undo Turn',
+        confirmButtonText: 'Let\'s Go',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          
+            this.currentRound.bib++;
+            this.moreDarts = true;
+            this.currentPlayer.bibs++;
+            playerGame.bibs++;
+          
+        } else {
+          this.undoTurn();
+          this.moreDarts = true;
+         // this.throwNum = 1;
+          this.startNewRound();
+        }
+      });
+    }
+    else {
       Swal.fire({
         title: 'Turn Complete',
         text: 'Commit score and move to next player?',
@@ -958,31 +1038,31 @@ console.table(this.playerList);
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-          this.checkForClosed();
-          if (this.currentRound.darts.filter(d => d.target > 0 ).length === ((this.currentRound.bib+1)*3) ) {
-            this.currentRound.bib++;
-            Swal.fire('That\'s a BiB. Still '+this.currentPlayer.firstName+'\'s turn.');
-            this.moreDarts = true;
-            this.throwNum = 1;
-            this.currentPlayer.bibs++;
-          } else {
             this.onNextPlayer();
-          }
         } else {
           this.undoTurn();
           this.moreDarts = true;
-          this.throwNum = 1;
+         // this.throwNum = 1;
           this.startNewRound();
         }
       });
       this.moreDarts = false;
     }
     this.showSingle();
+    }
+    else{
+      if (BiB){
+        this.currentRound.bib++;
+        this.currentPlayer.bibs++;
+        playerGame.bibs++;
+      }
+      this.gameOver();
+    }
   }
 
-  addScore(num: string)  {
-console.log('You got ' + num + ' points.');
-  }
+ gameOver(){
+  Swal.fire('Game Over, Fuckface')
+ }
 
 }
 

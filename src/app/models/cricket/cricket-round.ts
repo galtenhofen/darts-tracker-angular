@@ -12,4 +12,9 @@ export class CricketRound {
     this.bib = 0;
     this.moreDarts = true;
   }
+
+  get dartsLeft(): number {
+    return ((this.bib + 1) * 3) - this.darts.length;
+  }
+
 }
